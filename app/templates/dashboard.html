@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Tableau de bord{% endblock %}
+
+{% block content %}
+<h3 class="mb-4">📊 Tableau de bord</h3>
+
+<div class="row g-4 mb-4">
+  <div class="col-md-6 col-lg-4">
+    <div class="card text-center shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">👥 Utilisateurs inscrits</h5>
+        <p class="display-6 text-primary">{{ total_users }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-lg-4">
+    <div class="card text-center shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">💬 Messages envoyés</h5>
+        <p class="display-6 text-success">{{ total_messages }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12 col-lg-4">
+    <div class="card text-center shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">⚙️ Votre rôle</h5>
+        <p class="display-6 text-secondary">{{ current_user.role|capitalize }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-header bg-primary text-white">
+    <b>🕒 Derniers messages</b>
+  </div>
+  <div class="card-body">
+    {% if latest_messages %}
+      <ul class="list-group">
+        {% for msg in latest_messages %}
+          <li class="list-group-item">
+            <b>{{ msg.user.username }}</b> : {{ msg.content }}
+            <span class="text-muted float-end">{{ msg.timestamp.strftime('%d/%m %H:%M') }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-muted">Aucun message pour le moment.</p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="mt-4 text-end">
+  <a href="{{ url_for('chat.room_list') }}" class="btn btn-success">💬 Aller aux salons</a>
+</div>
+{% endblock %}

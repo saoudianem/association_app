@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<h4>👥 Gestion des utilisateurs</h4>
+<form method="POST" action="{{ url_for('admin.create_user') }}" class="mb-4">
+  <div class="row g-2">
+    <div class="col-md"><input type="text" name="username" placeholder="Nom d’utilisateur" class="form-control" required></div>
+    <div class="col-md"><input type="password" name="password" placeholder="Mot de passe" class="form-control" required></div>
+    <div class="col-md">
+      <select name="role" class="form-select">
+        <option value="member">Membre</option>
+        <option value="moderator">Modérateur</option>
+        <option value="admin">Admin</option>
+      </select>
+    </div>
+    <div class="col-md"><button class="btn btn-primary w-100">Créer</button></div>
+  </div>
+</form>
+
+<table class="table table-striped bg-white">
+  <thead><tr><th>Nom</th><th>Rôle</th><th>Actif</th><th>Actions</th></tr></thead>
+  <tbody>
+  {% for u in users %}
+    <tr>
+      <td>{{ u.username }}</td>
+      <td>{{ u.role }}</td>
+      <td>{{ '✅' if u.active else '❌' }}</td>
+      <td>
+        <a href="{{ url_for('admin.edit_user', user_id=u.id) }}" class="btn btn-sm btn-warning">✏️</a>
+        <a href="{{ url_for('admin.delete_user', user_id=u.id) }}" class="btn btn-sm btn-danger">🗑️</a>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

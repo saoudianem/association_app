@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}Admin – Tableau de bord{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-between mb-4">
+  <h3 class="fw-bold mb-0"><i class="bi bi-gear-fill text-warning"></i> Panneau d’administration</h3>
+  <a href="{{ url_for('main.index') }}" class="btn btn-outline-secondary btn-sm">
+    <i class="bi bi-house"></i> Retour au site
+  </a>
+</div>
+
+<!-- 🧩 Statistiques globales -->
+<div class="row g-4 mb-4">
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body text-center">
+        <div class="text-primary fs-1 mb-2"><i class="bi bi-people-fill"></i></div>
+        <h6 class="text-muted">Utilisateurs</h6>
+        <p class="display-6 fw-bold text-primary">{{ total_users }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body text-center">
+        <div class="text-success fs-1 mb-2"><i class="bi bi-chat-dots-fill"></i></div>
+        <h6 class="text-muted">Messages</h6>
+        <p class="display-6 fw-bold text-success">{{ total_messages }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body text-center">
+        <div class="text-info fs-1 mb-2"><i class="bi bi-kanban-fill"></i></div>
+        <h6 class="text-muted">Salons</h6>
+        <p class="display-6 fw-bold text-info">{{ total_rooms }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 🧩 Détails par salon / utilisateurs -->
+<div class="row g-4">
+  <div class="col-md-6">
+    <div class="card shadow-sm border-0">
+      <div class="card-header bg-primary text-white fw-semibold">
+        <i class="bi bi-bar-chart"></i> Messages par salon
+      </div>
+      <div class="card-body p-0">
+        <ul class="list-group list-group-flush">
+          {% for r in room_stats %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>{{ r.name }}</span>
+            <span class="badge bg-success rounded-pill">{{ r.count }}</span>
+          </li>
+          {% else %}
+          <li class="list-group-item text-muted text-center">Aucun salon disponible.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card shadow-sm border-0">
+      <div class="card-header bg-info text-white fw-semibold">
+        <i class="bi bi-trophy-fill"></i> Top 5 utilisateurs actifs
+      </div>
+      <div class="card-body p-0">
+        {% if top_users %}
+        <ul class="list-group list-group-flush">
+          {% for u in top_users %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span><i class="bi bi-person-fill text-primary"></i> {{ u.username }}</span>
+            <span class="badge bg-primary rounded-pill">{{ u.count }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <div class="p-3 text-muted text-center">Aucune activité pour le moment.</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 🧩 Actions -->
+<div class="d-flex justify-content-end flex-wrap gap-3 mt-4">
+  <a href="{{ url_for('chat.room_list') }}" class="btn btn-success">
+    <i class="bi bi-kanban"></i> Gérer les salons
+  </a>
+
+  <a href="{{ url_for('admin.users') }}" class="btn btn-primary">
+    <i class="bi bi-people"></i> Gérer les utilisateurs
+  </a>
+
+  <a href="{{ url_for('auth.change_password') }}" class="btn btn-outline-warning">
+    <i class="bi bi-key-fill"></i> Changer mot de passe admin
+  </a>
+</div>
+{% endblock %}

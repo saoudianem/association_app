@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}🗂️ Salons de discussion{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-between mb-3">
+  <h3 class="fw-bold mb-0"><i class="bi bi-kanban text-primary"></i> Salons de discussion</h3>
+  <a href="{{ url_for('main.index') }}" class="btn btn-outline-secondary btn-sm">
+    <i class="bi bi-house"></i> Retour
+  </a>
+</div>
+
+<!-- ✅ Création de salon (admin uniquement) -->
+{% if current_user.role == 'admin' %}
+<div class="card shadow-sm border-0 mb-4">
+  <div class="card-body">
+    <form method="POST" action="{{ url_for('chat.create_room') }}" class="d-flex align-items-center gap-2">
+      <input type="text" name="name" class="form-control" placeholder="Nom du nouveau salon..." required>
+      <button class="btn btn-primary"><i class="bi bi-plus-circle"></i> Créer</button>
+    </form>
+  </div>
+</div>
+{% endif %}
+
+<!-- 🧩 Liste des salons -->
+<div class="card shadow-sm border-0">
+  <div class="card-header bg-primary text-white fw-semibold">
+    <i class="bi bi-list-ul"></i> Salons disponibles
+  </div>
+
+  <ul class="list-group list-group-flush">
+    {% for r in rooms %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-chat-dots text-primary"></i>
+        <a href="{{ url_for('chat.chat', room_id=r.id) }}" class="fw-semibold text-decoration-none">
+          {{ r.name }}
+        </a>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        {% if r.unread_count and r.unread_count > 0 %}
+          <span class="badge bg-danger rounded-pill" title="Messages non lus">{{ r.unread_count }}</span>
+        {% endif %}
+
+        {% if current_user.role == 'admin' %}
+        <div class="d-flex align-items-center gap-2">
+          <!-- Modifier -->
+          <form method="POST" action="{{ url_for('chat.edit_room', room_id=r.id) }}" class="d-flex gap-1 align-items-center">
+            <input type="text" name="new_name" placeholder="Nouveau nom" 
+                   class="form-control form-control-sm" style="width: 140px;" required>
+            <button class="btn btn-sm btn-warning" title="Renommer">
+              <i class="bi bi-pencil"></i>
+            </button>
+          </form>
+
+          <!-- Supprimer -->
+          <form method="POST" action="{{ url_for('chat.delete_room', room_id=r.id) }}" 
+                onsubmit="return confirm('Supprimer définitivement le salon {{ r.name }} ?');">
+            <button class="btn btn-sm btn-danger" title="Supprimer">
+              <i class="bi bi-trash"></i>
+            </button>
+          </form>
+        </div>
+        {% endif %}
+      </div>
+    </li>
+    {% else %}
+    <li class="list-group-item text-muted text-center">Aucun salon pour le moment.</li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endblock %}

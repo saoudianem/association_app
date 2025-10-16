@@ -1,0 +1,8 @@
+/* Cartouches de message */
+.msg { border-radius: 12px; padding: 8px 12px; margin-bottom: 8px; }
+.msg-header { display:flex; justify-content:space-between; gap:8px; }
+.msg-body { white-space: pre-wrap; word-break: break-word; }
+
+/* Tes messages (à gauche ou à droite, au choix) */
+.msg-mine { background:#e7f5ff; border:1px solid #cfe8ff; }
+.msg-other { background:#f8f9fa; border:1px solid #ececec; }

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}🔐 Connexion{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-center" style="min-height: 70vh;">
+  <div class="card shadow-lg border-0" style="max-width: 420px; width: 100%; border-radius: 15px;">
+    <div class="card-body p-4">
+      <h3 class="text-center mb-4 fw-bold text-primary">
+        <i class="bi bi-door-open-fill"></i> Connexion
+      </h3>
+
+      <form method="POST" class="needs-validation">
+        <div class="form-floating mb-3">
+          <input type="text" name="username" id="username" class="form-control" placeholder="Nom d’utilisateur" required>
+          <label for="username"><i class="bi bi-person-fill"></i> Nom d’utilisateur</label>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input type="password" name="password" id="password" class="form-control" placeholder="Mot de passe" required>
+          <label for="password"><i class="bi bi-lock-fill"></i> Mot de passe</label>
+        </div>
+
+        <button class="btn btn-primary w-100 py-2 fw-semibold">
+          <i class="bi bi-box-arrow-in-right"></i> Se connecter
+        </button>
+      </form>
+
+      <div class="text-center mt-3">
+        <small class="text-muted">
+          💡 Accès réservé aux membres de l’association.
+        </small>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
