@@ -1,0 +1,32 @@
+# Environnements virtuels
+venv/
+env/
+.venv/
+
+# Fichiers Python compilés
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Fichiers temporaires
+*.log
+*.tmp
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Fichiers sensibles
+.env
+
+# Base de données locale
+instance/
+*.db
+
+# Dossier de migration
+migrations/
+
+# Cache IDE
+.vscode/
+.idea/
